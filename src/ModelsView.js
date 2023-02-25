@@ -10,12 +10,15 @@ import { Model as P2} from './P2'
 import { Model as P3} from './P3'
 import { Model as P1} from './P1'
 import './index.css';
+import {useProgress} from '@react-three/drei'
 
 
 var gif="model1"
 
 export default function Models_view() {
   const [model, setModel] = useState(0);
+  const {progress} = useProgress();
+  const [loading, setLoading] = useState(true);
 
   const setmodel = (page) =>{
     if( page === "1"){
@@ -31,8 +34,18 @@ export default function Models_view() {
         gif="model1"  }
   };
 
-  return (<>
+  useEffect (() => {
+    if (progress > 99){
+      setTimeout(setLoading(false), 2000);
+    }
+  }, [progress]);
 
+  return (<>
+    {loading &&
+    <div className="overlay">
+      <div className='main_heading1 overlay-text '>Loading...{Math.round(progress)}%</div>
+    </div>
+  }
    <div className='d-flex justify-content-between mx-5 py-3 sticky-top'>
 
 <div > <h1  className='main_heading'>Cryptoclub</h1></div>  <div > <h1 className='main_heading'></h1></div>
